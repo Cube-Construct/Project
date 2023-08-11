@@ -11,7 +11,7 @@ export const SuccessToast = ({message, isNavigate, navigate, path}) => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "colored",
+      theme: "light",
       autoClose: 3000,
       onClose: () => {
         navigate(path);
@@ -26,7 +26,7 @@ export const SuccessToast = ({message, isNavigate, navigate, path}) => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "colored",
+      theme: "light",
       autoClose: 3000
     });
   }
@@ -40,7 +40,7 @@ export const ErrorToast = ({message}) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
     autoClose: 3000
   });     
 }
@@ -53,7 +53,7 @@ export const WarningToast = ({message}) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
     autoClose: 3000
   });   
 }
@@ -66,7 +66,7 @@ export const InfoToast = ({message}) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
     autoClose: 3000
   });
 }
@@ -79,7 +79,7 @@ export const DefaultToast = ({message}) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "colored",
+    theme: "light",
     autoClose: 3000
   }); 
 }

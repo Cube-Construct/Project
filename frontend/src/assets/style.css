@@ -1032,3 +1032,8 @@ h2 {
   padding-top: 15px;
   z-index: 997;
 }
+
+.intro_li {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
