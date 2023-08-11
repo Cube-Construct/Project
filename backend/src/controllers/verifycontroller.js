@@ -157,7 +157,6 @@ exports.getpdf = trycatch(async (req, res) => {
         return data;
     });
     html = html.split("{{name}}").join(data.name);
-    html = html.split("{{address}}").join(company.orgAddress);
     html = html.split("{{prn}}").join(data.students[0].prn);
     let studentrows = "";
     for (let i = 0; i < data.students.length; i++) {

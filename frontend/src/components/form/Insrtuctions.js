@@ -10,9 +10,11 @@ const Insrtuctions = () => {
       <div className='main-body'>
         <div className='procedure'>
           <div className='DOCUMENTS' style={{ padding: '1rem 4rem 1rem 4rem' }}>
-          <h2 style={{ textAlign: 'center', marginBottom: '2rem', width: '100%' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '1rem', width: '100%' }}>
             Guidelines to apply for Verification
             </h2>
+            {/* insert horizontal line */}
+            <hr style={{ width: '100%', marginBottom: '2rem' }} />
             <ol style={{ lineHeight: '1.7rem' }} type='i'>
               <li className='intro_li'>
                 Any agency or any bonafide student of Walchand College of Engineering, Sangli can apply for verification of University documents like degree certificate of passing, Grade card of any semester.
@@ -21,7 +23,7 @@ const Insrtuctions = () => {
                 The applicant can submit the documents by using this verification portal.
               </li>
               <li className='intro_li'>
-                Documents required for verification: Degree certificate of passing or Grade card of any semester (minimum one document).
+                Documents required for verification: Degree certificate of passing or Grade card (minimum one document).
               </li>
               <li className='intro_li'>
                 <b>

@@ -6,18 +6,15 @@ import '../../assets/style.css'
 const DocUploader = () => {
   const [orgName, setOrgName] = React.useState('')
   const [orgEmail, setOrgEmail] = React.useState('')
-  const [address, setAddress] = React.useState('')
   const [studentMap, setStudentMap] = React.useState([{ name: '', Documents: [] }])
-  console.log(studentMap)
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
     try {
-      if (orgEmail && orgName && address && studentMap.length > 0) {
+      if (orgEmail && orgName && studentMap.length > 0) {
         const formData = new FormData();
         formData.append('orgName', orgName);
         formData.append('orgEmail', orgEmail);
-        formData.append('orgAddress', address);
         formData.append('studentCount', studentMap.length);
         studentMap.forEach((student, index) => {
           formData.append(`name${index}`, student.name);
@@ -62,10 +59,6 @@ const DocUploader = () => {
               <div className="input-box">
                 <div className="details">Email of Agency</div>
                 <input type="text" placeholder="Enter your email" required value={orgEmail} onChange={(e) => setOrgEmail(e.target.value)} />
-              </div>
-              <div className="input-box">
-                <div className="details">Address</div>
-                <textarea placeholder="Enter your Address" required value={address} onChange={(e) => setAddress(e.target.value)} />
               </div>
               <hr style={{ width: '100%', textAlign: 'left' }} />
               {studentMap.map((student, index) => {
