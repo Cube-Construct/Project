@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import DocViewer from "@cyntler/react-doc-viewer";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -6,12 +6,34 @@ import axios from 'axios';
 import { FaTimes } from 'react-icons/fa';
 import { SuccessToast, ErrorToast } from '../components/toaster';
 import { ToastContainer } from 'react-toastify';
+import { LoaderBar } from '../components/loader';
+
+
+const StaticPoppu = React.memo(({ unqId }) => {
+    return (
+        <DocViewer
+            documents={[
+                {
+                    uri: `http://localhost:5000/certificate/${unqId}.pdf`
+                },
+            ]}
+            config={{
+                header: {
+                    disableFileName: true,
+                }
+            }}
+
+        />
+    )
+});
+
 
 const Pendingstudents = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const unqId = location?.state?.unqId;
     const [popup, Setpopup] = useState(false);
+    const [loading, setLoading] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
 
     const [data, setData] = useState([]);
@@ -54,6 +76,8 @@ const Pendingstudents = () => {
 
     const verifyCompany = async () => {
         try {
+            setLoading(true);
+
             const response = await axios.post('http://localhost:5000/verification/admin/verify', { unqId: unqId }, {
                 headers: {
                     "Authorization": `Bearer ${user.token}`
@@ -61,11 +85,13 @@ const Pendingstudents = () => {
             })
 
             if (response.status === 200) {
+                setLoading(false);
                 SuccessToast({ message: response.data.message, isNavigate: false });
                 Setpopup(false);
             }
         }
         catch (error) {
+            // SetLoading(false);
             ErrorToast({ message: error.response.data.message });
         }
     }
@@ -118,25 +144,14 @@ const Pendingstudents = () => {
                     style={{ width: "25%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "9px 5px", border: "none", borderRadius: "5px", cursor: "pointer", float: "right" }} >
                     View certificate
                 </button>
+                <LoaderBar  loading={loading} />
                 {
                     popup === true &&
                     <div className="popup">
                         <button>
                             <FaTimes className='btn_circle' style={{ top: "10px", left: "5px" }} onClick={() => Setpopup(false)} />
                         </button>
-                        <DocViewer
-                            documents={[
-                                {
-                                    uri: `http://localhost:5000/certificate/${unqId}.pdf`
-                                },
-                            ]}
-                            config={{
-                                header: {
-                                    disableFileName: true,
-                                }
-                            }}
-
-                        />
+                        <StaticPoppu unqId={unqId} />
                         <button 
                         style={{float:"right", width: "15%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "9px 5px", border: "none", borderRadius: "5px", cursor: "pointer"}}
                         onClick={() => verifyCompany() }

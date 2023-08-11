@@ -67,9 +67,11 @@ const sendEmail = async (id, email) => {
         };
 
         const info = await transporter.sendMail(mailOptions);
-        console.log(info);
         return info;
     } catch (error) {
+        if (error.message === "No recipients defined") {
+            return error.message
+        }
         return null;
     }
 }     
@@ -85,6 +87,9 @@ exports.verify = trycatch(async (req, res) => {
     const info = await sendEmail(req.body.unqId, company.orgEmail);
     if (info === null) {
         throw new Error("Email not sent");
+    }
+    else if (info === "No recipients defined") {
+        throw new Error("No recipients defined");
     }
     company.isVerified = true;
     await company.save();

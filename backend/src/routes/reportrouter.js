@@ -5,7 +5,7 @@ const reportController = require('../controllers/reportcontroller');
 
 
 router.post(
-    '/verification/report/:tag',
+    '/verification/report',
     // userController.auth,
     reportController.createReport
 );

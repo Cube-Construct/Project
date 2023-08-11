@@ -65,6 +65,13 @@ exports.errorHandler = (err, req, res, next) => {
         });
     }
 
+    else if (err.message === "No recipients defined") {
+        return res.status(400).json({
+            error: err.message,
+            message: "Email not sent",
+        });
+    }
+
     return res.status(500).json({
         error: err.message,
         message: "Something went wrong",

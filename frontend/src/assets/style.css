@@ -707,6 +707,7 @@ body {
 }
 
 .container-table {
+  min-height: 100vh;
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
@@ -960,6 +961,7 @@ h2 {
 }
 
 .btn_circle_normal {
+  background-color: #FFFFFF;
   color: #222E3C;
   border-radius: 50%;
   display: flex;
@@ -988,4 +990,45 @@ h2 {
 
 .download_btn:hover {
   background-color: RoyalBlue;
+}
+
+.parentDisable {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgb(34, 46, 60, .5);
+  z-index: 998;
+  height: 100%;
+  width: 100%;
+}
+
+.loader {
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  height: 200px;
+}
+
+.bigBlurText {
+
+  font-size: 50px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #222e3c86;
+  text-align: center;
+  z-index: 999;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  user-select: none;
+  height: 80vh;
+}
+
+.fixed-action-right-bottom {
+  position: fixed;
+  right: 19%;
+  bottom: 23px;
+  padding-top: 15px;
+  z-index: 997;
 }

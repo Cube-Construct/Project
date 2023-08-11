@@ -174,6 +174,9 @@ const ManageStudents = () => {
                         <div className="col col-4">Passout Year</div>
                         <div className="col col-5" style={{ display: "flex", justifyContent: "end", marginRight: "10px" }}>Actions</div>
                     </li>
+                    {
+                        Students.length === 0 && <div className='bigBlurText'>No Students Found</div>
+                    }
                     {Students.map((item, index) => {
                         return (
                             <li className="table-row" key={index} >
@@ -196,14 +199,19 @@ const ManageStudents = () => {
                 </button> */}
                 {/* take only csv files */}
 
-                <button className="btn" style={{ backgroundColor: "#222E3C", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", float: "right" }} onClick={() => setFile([true, '', file[2]])}>
+                <div className='fixed-action-right-bottom'>
+                <button className="btn" 
+                    style={{ backgroundColor: "#222E3C", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", float: "right" }}
+                    onClick={() => setFile([true, '', file[2]])}
+                    title='Upload students csv file'>
                     Upload File
                 </button>
                 <FaPlus className="btn_circle_normal"
                     onClick={() => setCreate(true)}
                     style={{ border: "none", cursor: "pointer", float: "right", marginRight: "40px", fontSize: "40px", marginTop: "5px" }}
-                    title='Create User'
+                    title='Add Student'
                 />
+                </div>
             </div>
 
             {
@@ -219,7 +227,7 @@ const ManageStudents = () => {
                         <option value="insert">Insert New Students</option>
                         <option value="update">Update Previous List</option>
                     </select>
-                    <input type="file" onChange={(e) => setFile([file[0], e.target.files[0], file[2]])} accept=".csv, xlsx, .xls" id="file" name='file' style={{ marginLeft: "10px" }} />
+                    <input type="file" onChange={(e) => setFile([file[0], e.target.files[0], file[2]])} accept=".csv, .xlsx, .xls" id="file" name='file' style={{ marginLeft: "10px" }} />
                     <button className="btn"
                         style={{ backgroundColor: "#222E3C", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", float: "right", marginRight: "10px", marginBottom: "10px" }}
                         onClick={() => insertFile()}>

@@ -108,7 +108,7 @@ exports.updateMultipleStudentInfo = trycatch(async (req, res) => {
 
 exports.getStudentInfo = trycatch(async (req, res) => {
     const prn = req.body.prn;
-    const student = await StudentInfo.findOne({ prn });
+    const student = await StudentInfo.findOne({ prn: { $regex: prn, $options: 'i' } });
     if (!student) {
         throw new Error('Student not found');
     }

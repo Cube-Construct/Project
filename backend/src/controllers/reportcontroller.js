@@ -1,64 +1,118 @@
 const Student = require("../models/student");
 const Company = require("../models/company");
-const xlsx = require("xlsx");
 const trycatch = require("../error/errorhandler").trycatch;
+const ExcelJS = require('exceljs');
 
 
-// ------------ POST REQUEST : /verification/report/:tag ------------ //
+// ------------ POST REQUEST : /verification/report ------------ //
 
 exports.createReport = trycatch(async (req, res) => {
 
-    const tag = req.params.tag;
-    if (tag === "annual") {
-        const year = req.body.year;
-        let companies = await Company.find({
-            createdAt: {
-                $gte: new Date(year, 0, 1), $lt: new Date(year, 11, 31)
-            }
-        });
+    const startDate = req.body.startDate;
+    const endDate = req.body.endDate;
 
-        let students = await Student.find({
-            createdAt: {
-                $gte: new Date(year, 0, 1), $lt: new Date(year, 11, 31)
-            }
-        });
+    
+    let companies = await Company.find({
+        createdAt: {
+            $gte: new Date(startDate), $lte: new Date(endDate)
+        }
+    });
 
-        students = students.map((student) => {
-            const company = companies.find((company) => company._id.toString() === student.unqId.toString());
-            console.log(company);
-            return {
-                "Agency Name": company.orgName,
-                "Agency Email": company.orgEmail,
-                "Student Name": student.name,
-            };
-        });
+    let students = await Student.find({
+        createdAt: {
+            $gte: new Date(startDate), $lte: new Date(endDate)
+        }
+    });
 
-        companies = companies.map((company) => {
-            return {
-                "Agency Name": company.orgName,
-                "Agency Email": company.orgEmail,
-                "Agency Address": company.orgAddress,
-                "Students Verified": company.studentsCount,
-                "Mail Sent": company.isVerified ? "Yes" : "No",
-                "Date of Application": company.createdAt,
-                "Date of Verification": company.isVerified ? company.updatedAt : "Not Verified",
-            };
-        });
+    var data = [];
+    for (let i = 0; i < companies.length; i++) {
+        const students = await Student.find({ unqId: companies[i]._id });
+        data.push({
+            "Company Name": companies[i].orgName,
+            "Company Email": companies[i].orgEmail,
 
-        
-
-        const wb = xlsx.utils.book_new();
-        const ws1 = xlsx.utils.json_to_sheet(companies);
-        const ws2 = xlsx.utils.json_to_sheet(students);
-        xlsx.utils.book_append_sheet(wb, ws1, "Companies");
-        xlsx.utils.book_append_sheet(wb, ws2, "Students");
-        xlsx.writeFile(wb, `./src/public/reports/${year}.xlsx`);
-
-
-        res.status(200).json({
-            status: "success",
-            students: students,
-            companies: companies,
+            "Students": students.map((student) => {
+                return {
+                    "Student Name": student.name,
+                    "Student PRN": student.prn,
+                };
+            }),
         });
     }
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Report Sheet');
+
+    worksheet.columns = [
+        { header: 'Company Name', key: 'companyName', width: 30 },
+        { header: 'Company Email', key: 'companyEmail', width: 30 },
+        { header: 'Student Name', key: 'studentName', width: 30 },
+        { header: 'Student PRN', key: 'studentPRN', width: 30 }
+    ];
+    // style for header
+    worksheet.getRow(1).font = { bold: true };
+    worksheet.getColumn(1).alignment = { vertical: "center", horizontal: "center" };
+    worksheet.getColumn(2).alignment = { vertical: "center", horizontal: "left" };
+    worksheet.getColumn(3).alignment = { vertical: "center", horizontal: "left" };
+    worksheet.getColumn(4).alignment = { vertical: "center", horizontal: "center" };
+    worksheet.getRow(1).alignment = { vertical: "center", horizontal: "center" };
+
+    // give border to header
+    worksheet.getCell('A1').border = { top: { style: "thin" }, bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
+    worksheet.getCell('B1').border = { top: { style: "thin" }, bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
+    worksheet.getCell('C1').border = { top: { style: "thin" }, bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
+    worksheet.getCell('D1').border = { top: { style: "thin" }, bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
+
+
+    var lastStudentRow = 2;
+    var lastBorderRow = 2;
+
+    for (let i = 0; i < data.length; i++) {
+        const company = data[i];
+        const company_name = company["Company Name"];
+        const company_email = company["Company Email"];
+        const students = company["Students"];
+        for (let j = 0; j < students.length; j++) {
+            const student = students[j];
+            const student_name = student["Student Name"];
+            const student_prn = student["Student PRN"];
+            worksheet.addRow({
+                companyName: company_name,
+                companyEmail: company_email,
+                studentName: student_name,
+                studentPRN: student_prn
+            });
+            // give border
+            if (j == students.length - 1) {
+                worksheet.getCell(`A${lastStudentRow}`).border = { bottom: { style: "medium" }, left: { style: "medium" }, right: { style: "thin" } };
+                worksheet.getCell(`B${lastStudentRow}`).border = { bottom: { style: "medium" }, left: { style: "thin" }, right: { style: "thin" } };
+                worksheet.getCell(`C${lastBorderRow}`).border = { bottom: { style: "medium" }, left: { style: "thin" }, right: { style: "thin" } };
+                worksheet.getCell(`D${lastBorderRow}`).border = { bottom: { style: "medium" }, left: { style: "thin" }, right: { style: "medium" } };
+            } else {
+                worksheet.getCell(`A${lastBorderRow}`).border = { bottom: { style: "thin" }, left: { style: "medium" }, right: { style: "thin" } };
+                worksheet.getCell(`B${lastBorderRow}`).border = { bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
+                worksheet.getCell(`C${lastBorderRow}`).border = { bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
+                worksheet.getCell(`D${lastBorderRow}`).border = { bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "medium" } };
+            }
+            lastBorderRow++;
+
+        }
+        // merge cells for company name and company email
+        worksheet.mergeCells(`A${lastStudentRow}:A${lastStudentRow + students.length - 1}`);
+        worksheet.mergeCells(`B${lastStudentRow}:B${lastStudentRow + students.length - 1}`);
+        worksheet.getCell(`A${lastStudentRow}`).alignment = { vertical: "middle", horizontal: "center" };
+        worksheet.getCell(`B${lastStudentRow}`).alignment = { vertical: "middle", horizontal: "left" };
+        worksheet.getCell(`A${lastStudentRow}`).font = { bold: true };
+        lastStudentRow += students.length;
+    }
+
+    // save under export.xlsx
+    await workbook.xlsx.writeFile('report.xlsx');
+
+
+    res.status(200).json({
+        status: "success",
+        students: students,
+        companies: companies,
+    });
 });

@@ -35,6 +35,9 @@ const Allreq = () => {
                         <div className="col col-3">Student Count</div>
                         <div className="col col-4">Status</div>
                     </li>
+                    {
+                        data.length === 0 && <div className='bigBlurText' >No Requests Yet</div>
+                    }
                     {data.map((item, index) => {
                         return (
                             <li className="table-row" onClick={() => navigate('pendingstudents', { state: { unqId: item._id } })} key={index}>
@@ -42,7 +45,7 @@ const Allreq = () => {
                                 <div className="col col-2" data-label="Company Email">{item.orgEmail}</div>
                                 <div className="col col-3" data-label="Student Count">{item.studentsCount}</div>
                                 {item.isVerified && <div className="col col-4" data-label="Status" style={{ color: "green" }}>Verified</div>}
-                                {!item.isVerified && <div className="col col-4" data-label="Status" style={{ color: "red" }}>Pending</div>}
+                                {!item.isVerified && <div className="col col-4" data-label="Status" style={{ color: "red" }}>Not Verified</div>}
                             </li>
                         )
                     })}
