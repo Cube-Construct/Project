@@ -179,7 +179,7 @@ const ManageStudents = () => {
                     }
                     {Students.map((item, index) => {
                         return (
-                            <li className="table-row" key={index} >
+                            <li className="table-row" style={{cursor: "default"}} key={index} >
                                 <div className="col col-1" data-label="PRN" style={{ flexBasis: "30%" }}>{item.prn}</div>
                                 <div className="col col-2" data-label="Name">{item.name}</div>
                                 <div className="col col-3" data-label="Branch">{item.branch}</div>

@@ -107,13 +107,16 @@ const ManageUser = () => {
                     </li>
                     {Users.map((item, index) => {
                         return (
-                            <li className="table-row" key={index} >
+                            <li className="table-row" style={{cursor: "default"}} key={index} >
                                 <div className="col col-1" data-label="Sr no">{index + 1}</div>
                                 <div className="col col-2" data-label="User Email">{item.email}</div>
                                 <div className="col col-3" data-label="Access Level">{item.role}</div>
                                 <div className="col col-4" style={{ display: "flex", justifyContent: "end" }} data-label="Action">
                                     <FaEdit style={{ marginRight: "10px" }} className="btn_circle_normal" onClick={() => setEdit([true, item.email])} title='Edit User' />
-                                    <FaTrash style={{ marginRight: "10px" }} className="btn_circle_normal" onClick={() => deleteUser(item.email)} title='Delete User' />
+                                    {
+                                        item.role !== 'admin' &&
+                                        <FaTrash style={{ marginRight: "10px" }} className="btn_circle_normal" onClick={() => deleteUser(item.email)} title='Delete User' />
+                                    }
                                 </div>
                             </li>
                         );
@@ -134,7 +137,7 @@ const ManageUser = () => {
 
             {
                 edit[0] === true &&
-                <div className="popup" style={{ display: "block", justifyContent: "center" }}>
+                <div className="popup" style={{ display: "block", justifyContent: "center", padding: "20px" }}>
 
                     <div>
                         <input type="text" value={edit[1]}>
@@ -151,13 +154,13 @@ const ManageUser = () => {
             }
             {
                 create === true &&
-                <div className="popup" style={{ display: "block", justifyContent: "center" }}>
+                <div className="popup" style={{ display: "block", justifyContent: "center", padding: "20px" }}>
                     <div>
                         <input type="text" placeholder="Enter new Users email" value={newuser.email} onChange={(e) => setNewuser({email: e.target.value, password: newuser.password})} />
                     </div>
                     <br />
                     <div>
-                        <input type="text" placeholder="Enter new password" value={newuser.password} onChange={(e) => setNewuser({email: newuser.email, password: e.target.value})} />
+                        <input type="password" placeholder="Enter password" value={newuser.password} onChange={(e) => setNewuser({email: newuser.email, password: e.target.value})} />
                     </div>
                     <br />
                     <button style={{ width: "15%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "9px 5px", border: "none", borderRadius: "5px", cursor: "pointer" }} onClick={createUser} >Create</button>

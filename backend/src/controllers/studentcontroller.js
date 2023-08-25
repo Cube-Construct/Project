@@ -34,7 +34,6 @@ exports.insertStudent = trycatch (async (req, res) => {
     studentsCount: req.body.studentCount
   });
   const students = [];
-  console.log(req.body);
   for (let i = 0; i < req.body.studentCount; i++) {
     const number = `name${i}`;
     const student = new Student({

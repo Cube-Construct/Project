@@ -19,7 +19,11 @@ const companySchema = new schema({
         type: Boolean,
         default: false
     },
-}, { timestamps: true });
+}, { 
+    timestamps: {
+        currentTime: () => Date.now() + 19800000
+    }
+});
 
 const Company = mongoose.model('Company', companySchema);
 

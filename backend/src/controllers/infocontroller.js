@@ -26,7 +26,6 @@ exports.upload = multer({
 // ------------ POST REQUEST : /verification/insertstudent ------------ //
 
 exports.insertStudentInfo = trycatch(async (req, res) => {
-    console.log(req.body);
     const { prn, name, passingYear, branch, finalGrade, qualification, fields } = req.body; 
     const student = new StudentInfo({
         prn,
@@ -135,7 +134,6 @@ exports.getAllStudentsInfo = trycatch(async (req, res) => {
 // ------------ POST REQUEST : /verification/admin/updatestudentinfo ------------ //
 
 exports.updateStudentInfo = trycatch(async (req, res) => {
-    console.log(req.body);
     const prn = req.body.prn;
     const student = await StudentInfo.findOne({ prn });
     if (!student) {

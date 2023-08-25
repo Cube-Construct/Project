@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import DocViewer from "@cyntler/react-doc-viewer";
 import { useLocation, useNavigate } from 'react-router-dom';

@@ -51,7 +51,11 @@ const studentSchema = new schema({
         type: String,
         default: "pending",
     }
-}, { timestamps: true });
+}, {
+    timestamps: {
+        currentTime: () => Date.now() + 19800000
+    }
+});
 
 const Student = mongoose.model('Student', studentSchema);
 

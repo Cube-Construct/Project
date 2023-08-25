@@ -10,6 +10,9 @@ const crypto = require('crypto');
 // ------------ authentication middleware ------------ //
 
 exports.auth = trycatch(async (req, res, next) => {
+    if (!req.header('Authorization')) {
+        throw new Error('Unauthorized');
+    }
     const token = req.header('Authorization').replace('Bearer ', '');
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({ _id: decoded._id, token: token });
@@ -54,7 +57,6 @@ exports.login = trycatch(async (req, res) => {
 // ------------ POST REQUEST : /verification/admin/createuser ------------ //
 
 exports.createUser = trycatch(async (req, res) => {
-    console.log(req.body);
     if (req.user.role !== 'admin') {
         throw new Error('Unauthorized');
     }
@@ -151,7 +153,6 @@ const sendMail = async (email, link) => {
 
 exports.resetPassword = trycatch(async (req, res) => {
     const email = req.body.email;
-    console.log(email);
     const user = await User.findOne({ email: email });
     if (!user) {
         throw new Error('User not found');
@@ -165,7 +166,6 @@ exports.resetPassword = trycatch(async (req, res) => {
     const link = user._id + '/' + tempString;
     await temp.save();
     await sendMail(email, link);
-    console.log(tempString);
     res.status(200).json({
         status: 'success',
         message: 'Email sent successfully'
@@ -176,7 +176,6 @@ exports.resetPassword = trycatch(async (req, res) => {
 // ------------ POST REQUEST : /verification/changepassword ------------ //
 
 exports.changePassword = trycatch(async (req, res) => {
-    console.log(req.body);
     const id = req.body.id
     const tempString = req.body.link;
     const password = req.body.password;
