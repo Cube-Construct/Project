@@ -14,7 +14,8 @@ const StaticPoppu = React.memo(({ unqId }) => {
         <DocViewer
             documents={[
                 {
-                    uri: `http://localhost:5000/certificate/${unqId}.pdf`
+                    uri: `http://localhost:5000/certificate/${unqId}.pdf`,
+                    fileName: "Document"
                 },
             ]}
             config={{

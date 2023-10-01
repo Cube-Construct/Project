@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     cb(null, `./src/public/students/`);
   },
   filename: function (req, file, cb) {
-    cb(null, crypto.randomBytes(16).toString("hex") + '.' + file.originalname.split(".")[1]);
+    cb(null, crypto.randomBytes(16).toString("hex") + '.' + file.originalname.split(".")[file.originalname.split(".").length - 1]);
   },
 });
 exports.upload = multer({ storage: storage });

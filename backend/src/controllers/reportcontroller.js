@@ -20,7 +20,7 @@ exports.createReport = trycatch(async (req, res) => {
         }
     });
 
-    let students = await Student.find({
+    let allStudents = await Student.find({
         createdAt: {
             $gte: new Date(startDate), $lte: new Date(endDate)
         }
@@ -28,7 +28,13 @@ exports.createReport = trycatch(async (req, res) => {
 
     var data = [];
     for (let i = 0; i < companies.length; i++) {
-        const students = await Student.find({ unqId: companies[i]._id });
+        // const students = await Student.find({ unqId: companies[i]._id });
+        let students = [];
+        for (let j = 0; j < allStudents.length; j++) {
+            if (allStudents[j].unqId == companies[i]._id) {
+                students.push(allStudents[j])
+            } 
+        }
         data.push({
             "Company Name": companies[i].orgName,
             "Company Email": companies[i].orgEmail,

@@ -34,7 +34,7 @@ const DocView = () => {
 
     React.useEffect(() => {
         for (let i = 0; i < documents.length; i++) {
-            setDocs((prev) => [...prev, { uri: `http://localhost:5000/document/${documents[i]}` }])
+            setDocs((prev) => [...prev, { uri: `http://localhost:5000/document/${documents[i]}`, fileName: "Document" }])
         }
     }, [documents])
 
@@ -134,10 +134,10 @@ const DocView = () => {
                 );
                 if (response.status === 200) {
                     if (status === "valid") {
-                        SuccessToast({ message: "Student verified successfully", isNavigation: false });
+                        SuccessToast({ message: "Student validated", isNavigation: false });
                     }
                     else if (status === "invalid") {
-                        ErrorToast({ message: "Student rejected successfully", isNavigation: false });
+                        ErrorToast({ message: "Student invalidated", isNavigation: false });
                     }
                 }
                 else {
@@ -270,6 +270,7 @@ const DocView = () => {
                                                 <th>
                                                     <select style={{ background: "#222E3C", color: "white", fontSize: "bold", boxSizing: "none" }} onChange={(e) => setStudent({ ...student, fields: [student.fields[0], e.target.value] })} value={student?.fields[1]}>
                                                         <option value="CGPA">CGPA</option>
+                                                        <option value="CPA">CPA</option>
                                                         <option value="% Marks">% Marks</option>
                                                     </select>
                                                 </th>
@@ -296,8 +297,8 @@ const DocView = () => {
                                     <br />
                                 </div>
                                 <br />
-                                <button style={{ width: "30%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "9px 10px", border: "none", borderRadius: "5px", cursor: "pointer" }} onClick={() => verifyButton("valid")}>Verify</button>
-                                <button style={{ width: "30%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "9px 10px", border: "none", borderRadius: "5px", cursor: "pointer" }} onClick={() => verifyButton("invalid")}>Reject</button>
+                                <button style={{ width: "30%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "9px 10px", border: "none", borderRadius: "5px", cursor: "pointer" }} onClick={() => verifyButton("valid")}>Valid</button>
+                                <button style={{ width: "30%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "9px 10px", border: "none", borderRadius: "5px", cursor: "pointer" }} onClick={() => verifyButton("invalid")}>Invalid</button>
                                 {/* <button style={{ width: "30%", backgroundColor: "#222E3C", color: "white", padding: "10px 15px", margin: "150px 10px", border: "none", borderRadius: "5px", cursor: "pointer", float: "right" }} >View certificate</button> */}
                             </>
                             : null

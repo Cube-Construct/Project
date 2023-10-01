@@ -2,6 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import '../../assets/style.css'
+import { WarningToast, SuccessToast, ErrorToast } from '../toaster'
+import { ToastContainer } from 'react-toastify';
 
 const DocUploader = () => {
   const [orgName, setOrgName] = React.useState('')
@@ -11,7 +13,7 @@ const DocUploader = () => {
 
   const handleSubmit = async () => {
     try {
-      if (orgEmail && orgName && studentMap.length > 0) {
+      if (orgEmail && orgName && studentMap.length > 0 && studentMap.every(student => student.name && student.Documents.length > 0)) {
         const formData = new FormData();
         formData.append('orgName', orgName);
         formData.append('orgEmail', orgEmail);
@@ -27,18 +29,19 @@ const DocUploader = () => {
         const res = await axios.post('http://localhost:5000/verification/insertstudent', formData);
         console.log(res);
         if (res.status === 200) {
-          alert('Student added successfully')
+          SuccessToast({ message: "Student added successfully" });
           navigate("/payment")
         }
         else {
-          alert('Error in adding student')
+          ErrorToast({ message: "Internal Server Error" });
         }
       }
-      else
-        alert('Please fill all the fields')
+      else {
+        WarningToast({ message: "Please fill all the fields" });
+      }
     }
     catch (err) {
-      console.log(err);
+      ErrorToast({ message: "Something went wrong" });
     }
   }
 
@@ -46,6 +49,7 @@ const DocUploader = () => {
   return (
     <>
       {/* <br /> */}
+      <ToastContainer />
       <div className='main-body'>
       <div className="container">
         <div className="title">Document upload form</div>
@@ -53,11 +57,11 @@ const DocUploader = () => {
           <div className='div-form'>
             <div className="user-details">
               <div className="input-box">
-                <div className="details">Name of Agency</div>
+                <div className="details">Name of Applicant / Agency</div>
                 <input type="text" placeholder="Enter name of agency" required value={orgName} onChange={(e) => setOrgName(e.target.value)} />
               </div>
               <div className="input-box">
-                <div className="details">Email of Agency</div>
+                <div className="details">Email of Applicant / Agency</div>
                 <input type="text" placeholder="Enter your email" required value={orgEmail} onChange={(e) => setOrgEmail(e.target.value)} />
               </div>
               <hr style={{ width: '100%', textAlign: 'left' }} />
