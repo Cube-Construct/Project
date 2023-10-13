@@ -270,7 +270,7 @@ const DocView = () => {
                                                 <th>
                                                     <select style={{ background: "#222E3C", color: "white", fontSize: "bold", boxSizing: "none" }} onChange={(e) => setStudent({ ...student, fields: [student.fields[0], e.target.value] })} value={student?.fields[1]}>
                                                         <option value="CGPA">CGPA</option>
-                                                        <option value="CPA">CPA</option>
+                                                        <option value="CPI">CPI</option>
                                                         <option value="% Marks">% Marks</option>
                                                     </select>
                                                 </th>

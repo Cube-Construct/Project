@@ -17,13 +17,13 @@ const Insrtuctions = () => {
             <hr style={{ width: '100%', marginBottom: '2rem' }} />
             <ol style={{ lineHeight: '1.7rem' }} type='i'>
               <li className='intro_li'>
-                Any agency or any bonafide student of Walchand College of Engineering, Sangli can apply for verification of University documents like degree certificate of passing, Grade card of any semester.
+                Any agency or Wce of bonafide student can apply for document verification such as grade cards, provisional pasing certificates or University degree certificates
               </li>
               <li className='intro_li'>
-                The applicant can submit the documents by using this verification portal.
+                The applicant has to submit the documents by using this verification portal.
               </li>
               <li className='intro_li'>
-                Documents required for verification: Degree certificate of passing or Grade card (minimum one document).
+                Documents required for verification: Grade Cards, Provisional Certificate or University Degree Certificates.
               </li>
               <li className='intro_li'>
                 <b>
@@ -33,7 +33,7 @@ const Insrtuctions = () => {
                 <u><i>Note - Payment using dd and check is prohibited.</i></u>
               </li>
               <li className='intro_li'>
-                The applicant will get a certificate based on verification results on the respective email.
+              The applicant will receive verification letter on registered email id.
               </li>
               <li className='intro_li'>
                 <b>

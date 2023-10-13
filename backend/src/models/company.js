@@ -15,6 +15,10 @@ const companySchema = new schema({
         type: Number,
         required: [true, "Students Count is required"],
     },
+    amount: {
+        type: Number,
+        required: [true, "Amount is required"],
+    },
     isVerified: {   
         type: Boolean,
         default: false

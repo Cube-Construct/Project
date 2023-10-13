@@ -286,7 +286,7 @@ const ManageStudents = () => {
                                     <th style={{ background: "#222E3C" }}>
                                         <select style={{ background: "#222E3C", color: "white", fontSize: "bold", boxSizing: "none" }} onChange={(e) => setEdit([true, { ...edit[1], fields: [edit[1]?.fields[0], e.target.value] }])} value={edit[1]?.fields[1]}>
                                             <option value="CGPA">CGPA</option>
-                                            <option value="CPA">CPA</option>
+                                            <option value="CPI">CPI</option>
                                             <option value="% Marks">% Marks</option>
                                         </select>
                                     </th>
@@ -371,7 +371,7 @@ const ManageStudents = () => {
                                     <th style={{ background: "#222E3C" }}>
                                         <select style={{ background: "#222E3C", color: "white", fontSize: "bold", boxSizing: "none" }} onClick={(e) => setNewStudent({ ...newStudent, fields: [newStudent?.fields[0], e.target.value] })} value={newStudent?.fields[1]} >
                                             <option value="CGPA">CGPA</option>
-                                            <option value="CPA">CPA</option>
+                                            <option value="CPI">CPI</option>
                                             <option value="% Marks">% Marks</option>
                                         </select>
                                     </th>
